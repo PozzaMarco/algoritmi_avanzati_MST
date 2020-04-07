@@ -5,18 +5,19 @@
         - Matrice di adiacenza [V]
 
   1.2 Creazione di tutti i metodi necessari per il loro utilizzo:
-        - Dato un grafo G ritornare il numero di vertici e lati di G [-] 
-        - Creazione della struttura dati scelta [-]
-        - Dato un grafo G inizializzare la struttura dati scelta [-]
+        - Dato un grafo G ritornare il numero di vertici e lati di G [V] 
+        - Creazione della struttura dati scelta [V]
+        - Dato un grafo G inizializzare la struttura dati scelta [V]
         - Recupero delle informazioni dalla struttura dati:
-              -- Dato un nodo V recuperare la lista di nodi a lui collegato [-]
-              -- Data una coppia di nodi V e W dire se sono collegati [-]
+              -- Dato un nodo V recuperare la lista di nodi a lui collegato [V]
+              -- Data una coppia di nodi V e W dire se sono collegati [V]
 
   1.3 Creazione delle seguenti strutture:
-      -- Oggetto "Weight" che contiene tutti i pesi dei lati tra due nodi [-]
+      -- Oggetto "Weight" che contiene tutti i pesi dei lati tra due nodi [V]
           (JSON o mappa key-value)
-      -- Metodo W(V,W) ritorna il peso del lato che collega V e W, null altrimenti [-]
-          Siccome usiamo grafi non orientati, W(V,W) == W(W,V) senza salvarlo due volte 
+      -- Metodo W(V,W) ritorna il peso del lato che collega V e W, NaN altrimenti [V]
+          Siccome usiamo grafi non orientati, W(V,W) == W(W,V) il peso non va salvato
+          due volte.
 
 2) Craezione delle strutture dati necessarie per lo sviluppo degli algoritmi:
 
@@ -29,11 +30,12 @@
     -- Metodo di inserimento nuovo elemento mantenendo lo heap ordinato [-]
     -- Metodo di estrazione del minimo (extractMin) mantenendo lo heap ordinato [-]
     -- Metodo di eliminazione di un "heapNode" dato come parametro mantenendo lo heap ordinato[-]
-  2.2 Union-Find [-]
-    -- Inizializzazione e creazione della struttura dati [-]
-    -- Prevedere il campo aggiuntivo "size" che ritorna il numero di elementi dell'albero [-]
-    -- Metodo di Find [-]
-    -- Metodo di Union [-]
+
+  2.2 Union-Find [V]
+    -- Inizializzazione e creazione della struttura dati [V]
+    -- Prevedere il campo aggiuntivo "size" che ritorna il numero di elementi dell'albero [V]
+    -- Metodo di Find [V]
+    -- Metodo di Union [V]
 
 3) Implementazione dell'algoritmo di Prim con Heap [-]
     -- Creazione di un array key[] [-]
@@ -45,6 +47,8 @@
 
     4.1 Metodo Naive [-]
     4.2 Usando Union-Find [-]
+
+5) Valutare se conviene separare AdjacencyList e EdgesMap o se conviene lasciarle insieme [-]
 
 //========================================================================================
 /*                                                                                      *
@@ -100,9 +104,3 @@ rispetto alle matrici di adiacenza.
  * [V] task completato                                                                  *
  *                                                                                      */
 //========================================================================================
-
-
-Domande da fare al prof:
-- Heap e Union-Find si devono implementare da se?
-- Liste e Matrici di adiacenza si devono fare da se?
-- Heap può essere implementato sia come array che come "lista ordinata di oggetti heapNode"?
