@@ -7,7 +7,7 @@
 //========================================================================================
 import Edge from "./edge";
 
-export default class AdjacencyList {
+export default class Graph {
   numberOfNodes: number;
   numberOfEdges: number;
   adjacencyList: Map<number, number[]>;
@@ -51,7 +51,7 @@ export default class AdjacencyList {
     return this.weightBetween(firstNode, secondNode) != Infinity ? true : false;
   }
   
-  sortWeights(): Array<Edge> {
+  getSortedWeights(): Array<Edge> {
     return this.edgeList.sort(
       (a: Edge, b: Edge) => a.getWeight() - b.getWeight()
     );
@@ -63,7 +63,8 @@ export default class AdjacencyList {
       this.adjacencyList.set(node, []); // node is added
 
     //Push a new adjacentNode into node's adjacent list
-    this.adjacencyList.get(node).push(adjacentNode);
+    if(!this.adjacencyList.get(node).includes(adjacentNode))
+      this.adjacencyList.get(node).push(adjacentNode);
   }
 
   createAdjacencyList(graphDescription: string) {
@@ -83,6 +84,10 @@ export default class AdjacencyList {
           parseInt(nodeValues[0]),
           parseInt(nodeValues[1])
         );
+        this.addToAdjacencyList(
+          parseInt(nodeValues[1]),
+          parseInt(nodeValues[0])
+        );
 
         let newEdge = new Edge();
         newEdge.createNewEdge(
@@ -90,6 +95,7 @@ export default class AdjacencyList {
           parseInt(nodeValues[1]),
           parseInt(nodeValues[2])
         );
+        
         this.edgeList.push(newEdge);
       }
     });
@@ -102,5 +108,26 @@ export default class AdjacencyList {
       adjacentNodeList = this.adjacencyList.get(node);
 
     return adjacentNodeList;
+  }
+
+  getGraphTotalWeight(): number{
+    let totalWeight : number = 0;
+
+    this.edgeList.forEach(edge => {
+      totalWeight += edge.weight;
+    });
+
+    return totalWeight;
+  }
+
+  removeLastEdge(firstNode: number){
+    this.adjacencyList.get(firstNode).pop();
+
+    if(this.adjacencyList.get(firstNode).length == 0)
+      this.adjacencyList.delete(firstNode)
+  }
+
+  isAcyclic(): boolean{
+    return true;
   }
 }

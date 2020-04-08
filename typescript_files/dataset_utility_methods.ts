@@ -12,8 +12,7 @@
  *                                                                                      */
 //========================================================================================
 import fs from "fs";
-import AdjacencyList from "./adjacency_list";
-import { create } from "domain";
+import Graph from "./graph";
 
 //──── Methods ───────────────────────────────────────────────────────────────────────────
 function getFileNames(): Array<string> {
@@ -27,18 +26,20 @@ function getFileNames(): Array<string> {
 
 function createGraphsFromFile() {
   let fileNameList = getFileNames();
-  let graphList = new Array<AdjacencyList>();
+  let graphList = new Array<Graph>();
 
   fileNameList.forEach((graphFileName) => {
-    let adjacencyList = new AdjacencyList();
+    let graph = new Graph();
 
     let graphDescription = fs.readFileSync(
-      "mst_dataset/" + fileNameList[1],
+      "mst_dataset/" + fileNameList[2],
       "utf8"
     );//TODO fileNameList sotituire con graphFileName
 
-    adjacencyList.createAdjacencyList(graphDescription);
-    graphList.push(adjacencyList);
+    graph.createAdjacencyList(graphDescription);
+    graphList.push(graph);
   });
   return graphList;
 }
+let g = createGraphsFromFile()
+console.log(g[5])

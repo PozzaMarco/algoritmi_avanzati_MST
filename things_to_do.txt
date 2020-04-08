@@ -53,7 +53,7 @@
         
     4.2 Usando Union-Find [-]
 
-5) Valutare se conviene separare AdjacencyList e EdgesMap o se conviene lasciarle insieme [-]
+5) Valutare se conviene separare AdjacencyList e EdgesList o se conviene lasciarle insieme [-]
 
 //========================================================================================
 /*                                                                                      *

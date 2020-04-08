@@ -18,11 +18,8 @@ export default class Edge {
     this.firstNode = this.secondNode = this.weight = NaN;
   }
 
-  getEdge(): Object {
-    return {
-      firstNode: this.firstNode,
-      secondNode: this.secondNode,
-    };
+  getNodes(): Array<number> {
+    return [this.firstNode, this.secondNode]
   }
 
   getWeight(): number {
@@ -35,8 +32,11 @@ export default class Edge {
     this.weight = weight;
   }
 
-  equalTo(firstNode: number, secondNode: number): boolean {
-    return (firstNode == this.firstNode || firstNode == this.secondNode) &&
-      (secondNode == this.firstNode || secondNode == this.secondNode);
+  equalTo(edge: Edge): boolean {
+    return (edge.firstNode == this.firstNode || edge.firstNode == this.secondNode) &&
+      (edge.secondNode == this.firstNode || edge.secondNode == this.secondNode);
+  }
+  isLighter(edge: Edge){
+    return this.weight < edge.getWeight()
   }
 }
