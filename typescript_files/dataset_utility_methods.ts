@@ -41,7 +41,3 @@ function createGraphsFromFile() {
   });
   return graphList;
 }
-let g = createGraphsFromFile()
-let edg = g[5].getEdges();
-console.log(g[5])
-

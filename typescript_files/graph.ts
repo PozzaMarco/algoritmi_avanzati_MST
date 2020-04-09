@@ -12,6 +12,7 @@ export default class Graph {
   numberOfEdges: number;
   adjacencyList: Map<number, number[]>;
   edgeList: Array<Edge>;
+  labeledEdges :any = {}
 
   constructor() {
     this.numberOfEdges = this.numberOfNodes = 0;
@@ -83,7 +84,7 @@ export default class Graph {
 
       if (!isNaN(parseInt(nodeValues[0]))) {
         this.addToAdjacencyList(parseInt(nodeValues[0]), parseInt(nodeValues[1]));
-        this.addToAdjacencyList(parseInt(nodeValues[1]), parseInt(nodeValues[0]));
+        //this.addToAdjacencyList(parseInt(nodeValues[1]), parseInt(nodeValues[0]));
 
         let newEdge = new Edge();
         newEdge.createNewEdge(parseInt(nodeValues[0]), parseInt(nodeValues[1]),parseInt(nodeValues[2]));
@@ -94,7 +95,7 @@ export default class Graph {
   }
 
   getAdjacentNodesOf(node: number): number[] {
-    let adjacentNodeList: number[] = null;
+    let adjacentNodeList: number[] = [];
 
     if (this.adjacencyList.has(node))
       adjacentNodeList = this.adjacencyList.get(node);
@@ -132,7 +133,38 @@ export default class Graph {
       this.adjacencyList.delete(firstNode)
   }
 
+  //──── Custom implementation of DFS alghoritm that detects cycles ────────────────────────
   isAcyclic(): boolean{
+    const graphNodes = Array.from(this.adjacencyList.keys());
+    const visited = {}
+
+    for(let index = 0; index < graphNodes.length; index++){
+      if(this.detectCycle(graphNodes[index], visited))
+        return false;
+    }
     return true;
+  }
+
+  detectCycle(node: any, visited: any): boolean{
+    visited[node] = true;
+    let thereIsACycle: boolean = false;
+
+    const adjacentNodes = this.getAdjacentNodesOf(node);
+
+    for(let index = 0; index < adjacentNodes.length; index++){
+      const currentNode = adjacentNodes[index];
+
+      if(this.labeledEdges[node+"_"+currentNode] == null){
+        if(!visited[currentNode]){
+          this.labeledEdges[node+"_"+currentNode] = "DiscoveryEdge";
+          thereIsACycle = this.detectCycle(currentNode,visited);
+        }
+        else{
+          this.labeledEdges[node+"_"+currentNode] = "BackEdge";
+          return true;
+        }
+      }
+    }
+    return thereIsACycle;
   }
 }
