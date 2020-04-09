@@ -37,13 +37,16 @@ export default class Graph {
 
   weightBetween(firstNode: number, secondNode: number): number {
     let minWeight = Infinity;
+    let found : boolean = false;
 
-    this.edgeList.forEach((edge) => {
-      if (edge.equalTo(firstNode, secondNode))
-        if (minWeight > edge.getWeight()) minWeight = edge.getWeight();
-    });
+    for(let index = 0; index < this.numberOfEdges && !found; index++){
+      if(this.edgeList[index].equalToNodes(firstNode,secondNode)){
+        minWeight = this.edgeList[index].weight;
+        found = true;
+      }
+    }
 
-    return minWeight == Infinity ? Infinity : minWeight;
+    return minWeight
   }
 
   //Check if there is an edge between firstNode and secondNode
@@ -67,38 +70,27 @@ export default class Graph {
       this.adjacencyList.get(node).push(adjacentNode);
   }
 
-  createAdjacencyList(graphDescription: string) {
+  createGraph(graphDescription: string) {
     //Split graphDescription in lines and iterate through them to create the adjacency list
     let descriptionLines = graphDescription.split("\n");
 
     //Get and remove the first element of the descriptionLines that describe the graphDimensions
     let graphDimensions = descriptionLines.shift().split(" ");
     this.numberOfNodes = parseInt(graphDimensions[0]);
-    this.numberOfEdges = parseInt(graphDimensions[1]);
 
     descriptionLines.forEach((line) => {
       let nodeValues = line.split(" "); //Split lines into node values
 
       if (!isNaN(parseInt(nodeValues[0]))) {
-        this.addToAdjacencyList(
-          parseInt(nodeValues[0]),
-          parseInt(nodeValues[1])
-        );
-        this.addToAdjacencyList(
-          parseInt(nodeValues[1]),
-          parseInt(nodeValues[0])
-        );
+        this.addToAdjacencyList(parseInt(nodeValues[0]), parseInt(nodeValues[1]));
+        this.addToAdjacencyList(parseInt(nodeValues[1]), parseInt(nodeValues[0]));
 
         let newEdge = new Edge();
-        newEdge.createNewEdge(
-          parseInt(nodeValues[0]),
-          parseInt(nodeValues[1]),
-          parseInt(nodeValues[2])
-        );
-        
-        this.edgeList.push(newEdge);
+        newEdge.createNewEdge(parseInt(nodeValues[0]), parseInt(nodeValues[1]),parseInt(nodeValues[2]));
+        this.insertNewEdge(newEdge);
       }
     });
+    this.numberOfEdges = this.edgeList.length;
   }
 
   getAdjacentNodesOf(node: number): number[] {
@@ -118,6 +110,19 @@ export default class Graph {
     });
 
     return totalWeight;
+  }
+
+  insertNewEdge(newEdge: Edge){
+    let found : boolean = false;
+
+    for(let index = 0; index < this.edgeList.length && !found; index++){
+      if(newEdge.equalTo(this.edgeList[index]) && newEdge.isLighter(this.edgeList[index])){
+        this.edgeList[index].weight = newEdge.weight;
+        found = true;
+      }
+    }
+    if(!found)
+      this.edgeList.push(newEdge);
   }
 
   removeLastEdge(firstNode: number){

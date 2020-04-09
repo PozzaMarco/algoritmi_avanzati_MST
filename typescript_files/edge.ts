@@ -33,10 +33,16 @@ export default class Edge {
   }
 
   equalTo(edge: Edge): boolean {
-    return (edge.firstNode == this.firstNode || edge.firstNode == this.secondNode) &&
-      (edge.secondNode == this.firstNode || edge.secondNode == this.secondNode);
+    return (edge.firstNode == this.firstNode && edge.secondNode == this.secondNode) ||
+      (edge.firstNode == this.secondNode && edge.secondNode == this.firstNode);
   }
+
+  equalToNodes(firstNode: number, secondNode: number): boolean {
+    return (firstNode == this.firstNode && secondNode == this.secondNode) ||
+      (firstNode == this.secondNode && secondNode == this.firstNode);
+  }
+
   isLighter(edge: Edge){
-    return this.weight < edge.getWeight()
+    return this.weight <= edge.getWeight()
   }
 }

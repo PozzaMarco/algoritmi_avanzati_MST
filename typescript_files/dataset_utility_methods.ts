@@ -36,10 +36,12 @@ function createGraphsFromFile() {
       "utf8"
     );//TODO fileNameList sotituire con graphFileName
 
-    graph.createAdjacencyList(graphDescription);
+    graph.createGraph(graphDescription);
     graphList.push(graph);
   });
   return graphList;
 }
 let g = createGraphsFromFile()
+let edg = g[5].getEdges();
 console.log(g[5])
+
