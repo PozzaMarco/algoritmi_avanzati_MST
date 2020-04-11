@@ -21,15 +21,12 @@
 
 2) Craezione delle strutture dati necessarie per lo sviluppo degli algoritmi:
 
-  2.1 Heap [-]:
-    -- Tipo "heapNode" che contiene due informazioni:
-      -- parent: padre del nodo [-]
-      -- value: valore del nodo [-]
-    -- Lo "heap" è una lista o array ordinato di "heapNode" per "value" (minHeap o maxHeap) [-]
-    -- Metodo per la creazione dello "heap" dati gli "heapNode" (quindi devo ordinarla) [-]
-    -- Metodo di inserimento nuovo elemento mantenendo lo heap ordinato [-]
-    -- Metodo di estrazione del minimo (extractMin) mantenendo lo heap ordinato [-]
-    -- Metodo di eliminazione di un "heapNode" dato come parametro mantenendo lo heap ordinato[-]
+  2.1 Heap [V]:
+    -- Lo "heap" è una lista o array ordinato di "heapNode" per "value" (minHeap o maxHeap) [V]
+    -- Metodo per la creazione dello "heap" dati gli "heapNode" (quindi devo ordinarla) [V]
+    -- Metodo di inserimento nuovo elemento mantenendo lo heap ordinato [V]
+    -- Metodo di estrazione del minimo (extractMin) mantenendo lo heap ordinato [V]
+    -- Metodo di eliminazione di un "heapNode" dato come parametro mantenendo lo heap ordinato[V]
 
   2.2 Union-Find [V]
     -- Inizializzazione e creazione della struttura dati [V]
