@@ -13,7 +13,7 @@ import HeapNode from "./heapNode";
 
 export default class MinHeap {
   heap: HeapNode[];
-  areInHeap: Map<number, boolean>//TODO Al posto di boolean tenere l'indice nell'array!
+  areInHeap: Map<number, number>
 
   constructor() {
     this.heap = []; //Set first element (position 0) to null to simplify the calcs
@@ -26,11 +26,11 @@ export default class MinHeap {
 
   insert(node: HeapNode){
     this.heap.push(node);
-    this.heapifyUp()
-    this.areInHeap.set(node.node, true);
+    let position = this.heapifyUp()
+    this.areInHeap.set(node.node, position);
   }
 
-  heapifyUp(){
+  heapifyUp(): number{
     let index = this.heap.length - 1; // index of last element
 
     while (index > 0) {
@@ -41,7 +41,7 @@ export default class MinHeap {
 
       if (parent.weight <= element.weight) break; // if parent is less or equal then element nothing to do
 
-      //this.areInHeap.set(this.heap[parentIndex].node, index)
+      this.areInHeap.set(this.heap[parentIndex].node, index)
       this.heap[index] = parent; // else i have to swap it up the tree
       this.heap[parentIndex] = element;
       index = parentIndex;
@@ -53,7 +53,7 @@ export default class MinHeap {
     let min = this.heap[0]; // save minimum value
     
     let lastElement = this.heap.pop();
-    this.areInHeap.delete(min.node);
+    min ? this.areInHeap.delete(min.node) : null;
 
     if(this.heap.length != 0){
       this.heap[0] = lastElement; // remove last value and put at first place
@@ -77,11 +77,11 @@ export default class MinHeap {
       smallest = right;
     }
     // Swap
+    this.areInHeap.set(this.heap[smallest].node, index);
+    this.areInHeap.set(this.heap[index].node, smallest);
     if (smallest !== index) {
-      [this.heap[smallest], this.heap[index]] = [
-        this.heap[index],
-        this.heap[smallest],
-      ];
+      [this.heap[smallest], this.heap[index]] = [this.heap[index],this.heap[smallest]];
+
       this.heapifyDown(smallest);
     }
   }
@@ -90,14 +90,35 @@ export default class MinHeap {
     return this.areInHeap.has(node);
   }
 
-  update(node: number, weight: number){
-    for(let index = 0; index < this.heap.length; index++){
-      if(this.heap[index].node == node){
-        this.heap.splice(index,1);
-        this.insert(new HeapNode(node, weight));
-        break;
-      }
+  deleteNode(node: number){
+    let index = this.areInHeap.get(node);
+
+    if(index == this.heap.length - 1) //if last element
+      this.heap.pop();
+
+    else if( index == 0 ){ // if root
+      this.heap[index] = this.heap.pop();
+
+      this.heapifyDown(index);
     }
+
+    else{
+      let parentIndex = Math.floor((index - 1) / 2);
+
+      this.heap[index] = this.heap.pop();
+
+      if(this.heap[index].weight < this.heap[parentIndex].weight)
+        this.heapifyUp();
+      else 
+        this.heapifyDown(index);
+    }
+    this.areInHeap.delete(node);
+  }
+  update(node: number, weight: number){
+    if(this.contains(node)){
+      this.deleteNode(node);
+      this.insert(new HeapNode(node, weight));
+      }
   }
 
   isEmpty(): boolean{
