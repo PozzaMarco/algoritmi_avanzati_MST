@@ -18,7 +18,7 @@ export default class MinHeap {
     this.heap = []; //Set first element (position 0) to null to simplify the calcs
   }
 
-  getMin(): number {
+  getMin(): HeapNode {
     return this.heap[0];
   }
 
@@ -56,11 +56,11 @@ export default class MinHeap {
     const length = this.heap.length;
 
     // if left child is lower than parent
-     if(left <= length &&  this.heap[left].value < this.heap[smallest].value){
+     if(left <= length && this.heap[left] && this.heap[left].value < this.heap[smallest].value){
         smallest = left
       }
      // if right child is lower than parent
-     if(right <= length && this.heap[right].value < this.heap[smallest].value) {
+     if(right <= length && this.heap[right] && this.heap[right].value < this.heap[smallest].value) {
        smallest = right
      }
     // Swap
