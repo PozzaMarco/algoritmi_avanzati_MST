@@ -9,26 +9,26 @@
 
 export default class HeapNode{
     node: number;
-    value: number;
+    weight: number;
 
-    constructor(node: number, value: number){
+    constructor(node: number, weight: number){
         this.node = node;
-        this.value = value;
+        this.weight = weight;
     }
 
     getNode(): number{
         return this.node;
     }
 
-    getValue(): number{
-        return this.value;
+    getweight(): number{
+        return this.weight;
     }
 
     setNode(node: number){
         this.node = node;
     }
 
-    setValue(value: number){
-        this.value = value;
+    setweight(weight: number){
+        this.weight = weight;
     }
 }
