@@ -9,9 +9,10 @@
  * Accesso al figlio DX: 2 * i + 2.                                                     *
  *                                                                                      */
 //========================================================================================
+import HeapNode from "./heapNode";
 
 export default class MinHeap {
-  heap: number[];
+  heap: HeapNode[];
 
   constructor() {
     this.heap = []; //Set first element (position 0) to null to simplify the calcs
@@ -21,7 +22,7 @@ export default class MinHeap {
     return this.heap[0];
   }
 
-  insert(node: number) {
+  insert(node: HeapNode) {
     this.heap.push(node);
     this.heapifyUp();
   }
@@ -34,7 +35,7 @@ export default class MinHeap {
         parentIndex = Math.floor((index - 1) / 2), 
         parent = this.heap[parentIndex]; //take parent of last element
 
-      if (parent <= element) break; // if parent is less then element nothig to do
+      if (parent.value <= element.value) break; // if parent is less then element nothig to do
 
       this.heap[index] = parent; // else i have to swap it up the tree
       this.heap[parentIndex] = element;
@@ -42,7 +43,7 @@ export default class MinHeap {
     }
   }
 
-  extractMin(): number{
+  extractMin(): HeapNode{
     let  min = this.heap[0];// save minimum value
     this.heap[0]= this.heap.pop()// remove last value and put at first place
     this.heapifyDown(0)// find the right position for the new first node
@@ -55,11 +56,11 @@ export default class MinHeap {
     const length = this.heap.length;
 
     // if left child is lower than parent
-     if(left <= length &&  this.heap[left] < this.heap[smallest] ){
+     if(left <= length &&  this.heap[left].value < this.heap[smallest].value){
         smallest = left
       }
      // if right child is lower than parent
-     if(right <= length && this.heap[right] < this.heap[smallest]) {
+     if(right <= length && this.heap[right].value < this.heap[smallest].value) {
        smallest = right
      }
     // Swap

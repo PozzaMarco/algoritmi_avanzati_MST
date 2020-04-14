@@ -35,9 +35,9 @@
     -- Metodo di Union [V]
 
 3) Implementazione dell'algoritmo di Prim con Heap [-]
-    -- Creazione di un array key[] [-]
+    -- Creazione di un array key[] [V]
         Rappresenta il peso minimo di un qualsiasi lato che collega un nodo all'albero
-    -- Creazione array parent[] [-]
+    -- Creazione array parent[] [V]
         Rappresenta il padre che connette il nodo all'albero
 
 4) Implementazione dell'algoritmo di Kruskal:
