@@ -13,7 +13,7 @@ import HeapNode from "./heapNode";
 
 export default class MinHeap {
   heap: HeapNode[];
-  areInHeap: Map<number, number>
+  areInHeap: Map<number, number> // Map node -> position in heap
 
   constructor() {
     this.heap = []; //Set first element (position 0) to null to simplify the calcs
@@ -42,6 +42,7 @@ export default class MinHeap {
       if (parent.weight <= element.weight) break; // if parent is less or equal then element nothing to do
 
       this.areInHeap.set(this.heap[parentIndex].node, index)
+
       this.heap[index] = parent; // else i have to swap it up the tree
       this.heap[parentIndex] = element;
       index = parentIndex;
@@ -53,7 +54,9 @@ export default class MinHeap {
     let min = this.heap[0]; // save minimum value
     
     let lastElement = this.heap.pop();
-    min ? this.areInHeap.delete(min.node) : null;
+
+    if(min != null)
+      this.areInHeap.delete(min.node)
 
     if(this.heap.length != 0){
       this.heap[0] = lastElement; // remove last value and put at first place
@@ -79,6 +82,7 @@ export default class MinHeap {
     // Swap
     this.areInHeap.set(this.heap[smallest].node, index);
     this.areInHeap.set(this.heap[index].node, smallest);
+
     if (smallest !== index) {
       [this.heap[smallest], this.heap[index]] = [this.heap[index],this.heap[smallest]];
 
@@ -93,25 +97,29 @@ export default class MinHeap {
   deleteNode(node: number){
     let index = this.areInHeap.get(node);
 
-    if(index == this.heap.length - 1) //if last element
-      this.heap.pop();
+    if(index <= this.heap.length){
+      if(index == this.heap.length - 1) //if last element
+        this.heap.pop();
 
-    else if( index == 0 ){ // if root
-      this.heap[index] = this.heap.pop();
+      else if( index == 0 ){ // if root
+        this.heap[index] = this.heap.pop();
 
-      this.heapifyDown(index);
-    }
-
-    else{
-      let parentIndex = Math.floor((index - 1) / 2);
-
-      this.heap[index] = this.heap.pop();
-
-      if(this.heap[index].weight < this.heap[parentIndex].weight)
-        this.heapifyUp();
-      else 
         this.heapifyDown(index);
+      }
+
+      else{
+        let parentIndex = Math.floor((index - 1) / 2);
+        this.heap[index] = this.heap.pop()
+
+        if(this.heap[index].weight < this.heap[parentIndex].weight)
+          this.heapifyUp();
+
+        else
+          this.heapifyDown(index);
+        
+      }
     }
+    
     this.areInHeap.delete(node);
   }
 

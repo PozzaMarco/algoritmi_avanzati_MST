@@ -5,19 +5,24 @@ import HeapNode from "./heapNode";
 function initialization(graph: Graph): any{
     let key: number[] = [];
     let parents: number[] = [];
-       
-    for(let index = 1; index <= graph.getNumberOfNodes(); index++){
-        key[index] = Infinity;
-        parents[index] = null;
-    }
+    
+    let nodes = Array.from(graph.getList().keys());
+
+    nodes.forEach(node => {
+        key[node] = Infinity;
+        parents[node] = null;
+        
+    });
     return [key, parents]
 }
 
 function createPriorityQueue(graph: Graph, key: number[]): MinHeap{
     let minHeap = new MinHeap();
+    let nodes = Array.from(graph.getList().keys());
 
-    for(let index = 1; index <= graph.getNumberOfNodes(); index++)
-        minHeap.insert(new HeapNode(index, key[index]));
+    nodes.forEach(node => {
+        minHeap.insert(new HeapNode(node, key[node]));  
+    });
 
     return minHeap;
 }
@@ -33,17 +38,17 @@ function prim(graph: Graph, startingNode: number): any{
 
     while(!priorityQueue.isEmpty()){
         let current = priorityQueue.extractMin();
-        let adjacentOfCurrent = graph.getAdjacentNodesOf(current.node);
+        let adjacentOfCurrent = graph.getAdjacentNodesOf(current.getNode());
 
-        adjacentOfCurrent.forEach(node =>{
-            if(priorityQueue.contains(node) && graph.weightBetween(current.getNode(), node) < key[node]){
-                parents[node] = current.getNode();
-                key[node] = graph.weightBetween(current.getNode(), node);
-                priorityQueue.update(node, key[node]);
+        adjacentOfCurrent.forEach(adjNode =>{
+            if(priorityQueue.contains(adjNode) && graph.weightBetween(current.getNode(), adjNode) < key[adjNode]){
+                parents[adjNode] = current.getNode();
+                key[adjNode] = graph.weightBetween(current.getNode(), adjNode);
+                priorityQueue.update(adjNode, key[adjNode]);
             }
         })
     }
-    return [key, parents]
+    return [key, parents, priorityQueue]
 }
 
 export default prim;
