@@ -1,6 +1,7 @@
 import Graph from "./graph";
 import Edge from "./edge"
 import UnionFind from "./union_find";
+import {isAcyclic} from "./DFS";
 
 function kruskal(graph: Graph): Array<Edge>{
     let mst = new Array<Edge>();
@@ -17,9 +18,9 @@ function kruskal(graph: Graph): Array<Edge>{
             unionFind.union(firstNode, secondNode);
         }
     });
-
     return mst;
 }
+
 function kruskalNaive(graph: Graph): Graph{
     let mst: Graph = new Graph();
     let graphEdges = graph.getSortedWeights();
@@ -27,9 +28,21 @@ function kruskalNaive(graph: Graph): Graph{
     graphEdges.forEach(edge => {
         let [ firstNode, secondNode ] = edge.getNodes();
         mst.addToAdjacencyList(firstNode, secondNode);
+        mst.addToAdjacencyList(secondNode, firstNode);
 
-        if(!mst.isAcyclic())
-            mst.removeLastEdge(firstNode);
+        if(!isAcyclic(mst))
+            mst.removeLastEdgeOf(firstNode);
+
+        else{
+            let newEdge = new Edge();
+            newEdge.createNewEdge(firstNode,secondNode, graph.weightBetween(firstNode,secondNode))
+            mst.insertNewEdge(newEdge);
+        }
     });
     return mst;
 }
+
+export{
+    kruskal,
+    kruskalNaive
+};

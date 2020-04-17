@@ -21,6 +21,7 @@ function createPriorityQueue(graph: Graph, key: number[]): MinHeap{
 
     return minHeap;
 }
+
 function prim(graph: Graph, startingNode: number): any{
     let key: number[];// Peso minimo di un qualsiasi lato che connette un nodo all'albero
     let parents: number[];// Rappresenta il padre del nodo nell'albero

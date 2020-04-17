@@ -42,15 +42,14 @@
 
 4) Implementazione dell'algoritmo di Kruskal:
 
-    4.1 Metodo Naive [V]
+    4.1 Metodo Naive [-]
      -- Naive richiede che la lista di lati sia aciclica quindi bisogna creare:
-        -- Lista di vertici Lv [V]
-        -- Lista di lati Le [V]
-        -- Tramite DFS controllare che il grafo sia aciclico [V]
+     -- Inizializzare un oggetto parents che contiene, per ogni nodo, il padre;
+     -- Inizializzare un oggetto visited che dice se un nodo è già stato visitato o no;
         
     4.2 Usando Union-Find [V]
 
-5) Valutare se conviene separare AdjacencyList e EdgesList o se conviene lasciarle insieme [-]
+5) Valutare se conviene separare AdjacencyList e EdgesList o se conviene lasciarle insieme [V]
 
 //========================================================================================
 /*                                                                                      *

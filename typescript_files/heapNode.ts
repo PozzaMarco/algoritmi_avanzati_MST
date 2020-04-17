@@ -20,7 +20,7 @@ export default class HeapNode{
         return this.node;
     }
 
-    getweight(): number{
+    getWeight(): number{
         return this.weight;
     }
 
@@ -28,7 +28,7 @@ export default class HeapNode{
         this.node = node;
     }
 
-    setweight(weight: number){
+    setWeight(weight: number){
         this.weight = weight;
     }
 }

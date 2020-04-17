@@ -114,10 +114,11 @@ export default class MinHeap {
     }
     this.areInHeap.delete(node);
   }
+
   update(node: number, weight: number){
     if(this.contains(node)){
-      this.deleteNode(node);
-      this.insert(new HeapNode(node, weight));
+        this.deleteNode(node);
+        this.insert(new HeapNode(node, weight));
       }
   }
 

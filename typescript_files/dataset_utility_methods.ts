@@ -18,7 +18,7 @@ import Graph from "./graph";
 function getFileNames(): Array<string> {
   let fileNameList: Array<string> = new Array();
 
-  fs.readdirSync("mst_dataset").forEach((fileName) => {
+  fs.readdirSync("test_dataset").forEach((fileName) => {//TODO: change directory
     fileNameList.push(fileName);
   });
   return fileNameList;
@@ -32,12 +32,14 @@ function createGraphsFromFile() {
     let graph = new Graph();
 
     let graphDescription = fs.readFileSync(
-      "mst_dataset/" + fileNameList[2],
+      "test_dataset/" + graphFileName,//TODO: change directory
       "utf8"
-    );//TODO fileNameList sotituire con graphFileName
+    );
 
     graph.createGraph(graphDescription);
     graphList.push(graph);
   });
   return graphList;
 }
+
+export default createGraphsFromFile
