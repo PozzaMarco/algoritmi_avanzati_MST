@@ -1,7 +1,7 @@
 import Graph from "./graph";
 import Edge from "./edge"
 import UnionFind from "./union_find";
-import {isAcyclic} from "./DFS";
+import {isAcyclic, getLabeledEdges} from "./DFS";
 
 function kruskal(graph: Graph): Array<Edge>{
     let mst = new Array<Edge>();

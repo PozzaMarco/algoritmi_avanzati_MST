@@ -48,7 +48,7 @@ function prim(graph: Graph, startingNode: number): any{
             }
         })
     }
-    return [key, parents, priorityQueue]
+    return [key, parents]
 }
 
 export default prim;
