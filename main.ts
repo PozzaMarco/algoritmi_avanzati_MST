@@ -11,11 +11,11 @@ import {kruskal, kruskalNaive} from "./typescript_files/kruskal";
 let primTime, kruskalTime, kruskalNaiveTime;
 let primKey, primParents, kruskalMst, kruskalNaiveMst;
 let primTotalWeight, kruskalTotalWeight, kruskalNaiveTotalWeight = 0;
-let fileName = "final_time_results";
+let fileName = "final_results";
 
-writeOnFile(fileName+"_prim", "NODI ---- TEMPO ---- PESO TOTALE");
-writeOnFile(fileName+"_kruskalNaive", "NODI ---- TEMPO ---- PESO TOTALE");
-writeOnFile(fileName+"_kruskal", "NODI ---- TEMPO ---- PESO TOTALE");
+writeOnFile(fileName+"_prim", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
+writeOnFile(fileName+"_kruskalNaive", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
+writeOnFile(fileName+"_kruskal", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
 
 let graphs = createGraphsFromFile();
 
@@ -25,7 +25,7 @@ graphs.forEach(async (graph) => {
     [primKey, primParents] = prim(graph, 1);
     primTime = (performance.now() - primTime).toFixed(5);
     primTotalWeight = primTotalWeightCalc(primKey);
-    await writeOnFile(fileName+"_prim", graph.getNumberOfNodes() + " ---- " + primTime + " ---- " + primTotalWeight);
+    await writeOnFile(fileName+"_prim", graph.getName() + " ---- " + primTime + " ---- " + primTotalWeight);
 });
 
 //──── KRUSKAL NAIVE ─────────────────────────────────────────────────────────────────────
@@ -34,7 +34,7 @@ graphs.forEach(async (graph) => {
     kruskalNaiveMst = kruskalNaive(graph);
     kruskalNaiveTime = (performance.now() - kruskalNaiveTime).toFixed(5);
     kruskalNaiveTotalWeight = kruskalNaiveMst.getGraphTotalWeight()
-    await writeOnFile(fileName+"_kruskalNaive", graph.getNumberOfNodes() + " ---- " + kruskalNaiveTime + " ---- " + kruskalNaiveTotalWeight);
+    await writeOnFile(fileName+"_kruskalNaive", graph.getName() + " ---- " + kruskalNaiveTime + " ---- " + kruskalNaiveTotalWeight);
 });
 
 //──── KRUSKAL ───────────────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ graphs.forEach(async (graph) => {
     kruskalMst = kruskal(graph);
     kruskalTime = (performance.now() - kruskalTime).toFixed(5);
     kruskalTotalWeight = kruskalTotalWeightCalc(kruskalMst);
-    await writeOnFile(fileName+"_kruskal", graph.getNumberOfNodes() + " ---- " + kruskalTime + " ---- " + kruskalTotalWeight);
+    await writeOnFile(fileName+"_kruskal", graph.getName() + " ---- " + kruskalTime + " ---- " + kruskalTotalWeight);
 });
 
 //──── Utility functions ─────────────────────────────────────────────────────────────────

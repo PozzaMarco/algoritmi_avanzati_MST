@@ -8,17 +8,27 @@
 import Edge from "./edge";
 
 export default class Graph {
+  name: string;
   numberOfNodes: number;
   numberOfEdges: number;
   adjacencyList: Map<number, number[]>;
   edgeList: Array<Edge>;
 
   constructor() {
+    this.name = "";
     this.numberOfEdges = this.numberOfNodes = 0;
     this.adjacencyList = new Map<number, number[]>();
     this.edgeList = new Array<Edge>();
   }
 
+  setName(graphName: string){
+    this.name = graphName;
+  }
+
+  getName(): string{
+    return this.name;
+  }
+  
   getNumberOfNodes(): number {
     return this.numberOfNodes;
   }

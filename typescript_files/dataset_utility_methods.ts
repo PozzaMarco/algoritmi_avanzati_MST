@@ -35,7 +35,8 @@ function createGraphsFromFile() {
       "test_dataset/" + graphFileName,//TODO mst_dataset_first_half
       "utf8"
     );
-
+    
+    graph.setName(graphFileName.substring(0, graphFileName.length - 4));
     graph.createGraph(graphDescription);
     graphList.push(graph);
   });
