@@ -13,10 +13,10 @@ import HeapNode from "./heapNode";
 
 export default class MinHeap {
   heap: HeapNode[];
-  areInHeap: Map<number, number> // Map node -> position in heap
+  areInHeap: Map<number, any> // Map nodo -> posizione nello heap
 
   constructor() {
-    this.heap = []; //Set first element (position 0) to null to simplify the calcs
+    this.heap = [];
     this.areInHeap = new Map();
   }
 
@@ -26,24 +26,22 @@ export default class MinHeap {
 
   insert(node: HeapNode){
     this.heap.push(node);
-    let position = this.heapifyUp()
+    let position = this.heapifyUp(this.heap.length - 1);
     this.areInHeap.set(node.node, position);
   }
 
-  heapifyUp(): number{
-    let index = this.heap.length - 1; // index of last element
-
+  heapifyUp(index: number): number{
     while (index > 0) {
-      // while i not reach the root
-      let element = this.heap[index], //take last element
+      // finchè non raggiungo la radice
+      let element = this.heap[index],
         parentIndex = Math.floor((index - 1) / 2),
-        parent = this.heap[parentIndex]; //take parent of last element
+        parent = this.heap[parentIndex]; //prendo il padre dell'elemento corrente
 
-      if (parent.weight <= element.weight) break; // if parent is less or equal then element nothing to do
+      if (parent.weight <= element.weight) break; // se il padre è minore o uguale del figlio allora non ho niente da fare
 
       this.areInHeap.set(this.heap[parentIndex].node, index)
 
-      this.heap[index] = parent; // else i have to swap it up the tree
+      this.heap[index] = parent; // altrimenti devo fare uno swap
       this.heap[parentIndex] = element;
       index = parentIndex;
     }
@@ -51,16 +49,16 @@ export default class MinHeap {
   }
 
   extractMin(): HeapNode {
-    let min = this.heap[0]; // save minimum value
+    let min = this.heap[0]; // salvo il minimo
     
     let lastElement = this.heap.pop();
 
-    if(min != null)
+    if(min != null) // se il minimo è null significa che l'albero è vuoto e non ho niente da fare
       this.areInHeap.delete(min.node)
 
     if(this.heap.length != 0){
-      this.heap[0] = lastElement; // remove last value and put at first place
-      this.heapifyDown(0); // find the right position for the new first node
+      this.heap[0] = lastElement; // l'ultimo elemento sostituisce la radice
+      this.heapifyDown(0); // trovo la posizione corretta della nuova radice nell'albero
     }
     return min;
   }
@@ -71,18 +69,19 @@ export default class MinHeap {
       smallest = index;
     const length = this.heap.length;
 
-    // if left child is lower than parent
+    // se il figlio sinistro esiste ed è piu piccolo del padre
     if (left <= length && this.heap[left] && this.heap[left].weight < this.heap[smallest].weight) {
       smallest = left;
     }
-    // if right child is lower than parent
+    // se il figlio destro esiste ed è piu piccolo del padre
     if (right <= length && this.heap[right] && this.heap[right].weight < this.heap[smallest].weight) {
       smallest = right;
     }
-    // Swap
+    // Swap degli indici delle posizioni
     this.areInHeap.set(this.heap[smallest].node, index);
     this.areInHeap.set(this.heap[index].node, smallest);
 
+    //Swap dei valori
     if (smallest !== index) {
       [this.heap[smallest], this.heap[index]] = [this.heap[index],this.heap[smallest]];
 
@@ -94,41 +93,14 @@ export default class MinHeap {
     return this.areInHeap.has(node);
   }
 
-  deleteNode(node: number){
+  update(node: number, weight: number){
     let index = this.areInHeap.get(node);
 
-    if(index <= this.heap.length){
-      if(index == this.heap.length - 1) //if last element
-        this.heap.pop();
-
-      else if( index == 0 ){ // if root
-        this.heap[index] = this.heap.pop();
-
-        this.heapifyDown(index);
-      }
-
-      else{
-        let parentIndex = Math.floor((index - 1) / 2);
-        this.heap[index] = this.heap.pop()
-
-        if(this.heap[index].weight < this.heap[parentIndex].weight)
-          this.heapifyUp();
-
-        else
-          this.heapifyDown(index);
-        
-      }
-    }
-    
-    this.areInHeap.delete(node);
-  }
-
-  update(node: number, weight: number){
-    if(this.contains(node)){
-        this.deleteNode(node);
-        this.insert(new HeapNode(node, weight));
-      }
-  }
+    this.heap[index].weight = -Infinity;
+    this.heapifyUp(index);
+    this.heap[0].weight = weight;
+    this.heapifyDown(0);
+}
 
   isEmpty(): boolean{
     return this.heap.length == 0;

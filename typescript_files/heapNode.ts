@@ -3,7 +3,7 @@
  * Classe utilizzata per rappresentare un nodo del grafo nello heap.                    *
  * Sarà composto da:                                                                    *
  * - valore del nodo;                                                                   *
- * - valore della key ( ovvero il peso minimo del lato che connette il nodo all'albero) *
+ * - valore della key ( ovvero il peso minimo del lato che connette il nodo all'albero )*
  *                                                                                      */
 //========================================================================================
 

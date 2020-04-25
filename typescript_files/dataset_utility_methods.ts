@@ -11,6 +11,19 @@
  * ...                                                                                  *
  *                                                                                      */
 //========================================================================================
+//========================================================================================
+/*                                                                                      *
+ * Per eseguire il codice è necessario specificare il nome del file, dalla quale        *
+ * recuperare i grafi sia, in getFileNames() sia che in createGraphsFromFile().         *
+ * I nomi dei file sono:                                                                *
+ * -- mst_dataset_first_part                                                            *
+ * -- mst_dataset_second_part                                                           *
+ * -- mst_dataset_third_part                                                            *
+ * -- mst_dataset_fourth_part                                                           *
+ * -- mst_dataset_fifth_part                                                            *
+ *                                                                                      */
+//========================================================================================
+
 import fs from "fs";
 import Graph from "./graph";
 
@@ -18,7 +31,7 @@ import Graph from "./graph";
 function getFileNames(): Array<string> {
   let fileNameList: Array<string> = new Array();
 
-  fs.readdirSync("test_dataset").forEach((fileName) => { //TODO mst_dataset_first_half
+  fs.readdirSync("mst_dataset/mst_dataset_first_part").forEach((fileName) => {
     fileNameList.push(fileName);
   });
   return fileNameList;
@@ -32,7 +45,7 @@ function createGraphsFromFile() {
     let graph = new Graph();
 
     let graphDescription = fs.readFileSync(
-      "test_dataset/" + graphFileName,//TODO mst_dataset_first_half
+      "mst_dataset/mst_dataset_first_part/" + graphFileName,
       "utf8"
     );
     

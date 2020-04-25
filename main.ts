@@ -2,7 +2,6 @@
 import fs from "fs";
 import {performance} from 'perf_hooks';
 import createGraphsFromFile from "./typescript_files/dataset_utility_methods";
-import Graph from "./typescript_files/graph";
 import Edge from "./typescript_files/edge";
 import prim from "./typescript_files/prim";
 import {kruskal, kruskalNaive} from "./typescript_files/kruskal";
@@ -13,11 +12,11 @@ let primKey, primParents, kruskalMst, kruskalNaiveMst;
 let primTotalWeight, kruskalTotalWeight, kruskalNaiveTotalWeight = 0;
 let fileName = "final_results";
 
+let graphs = createGraphsFromFile();
+
 writeOnFile(fileName+"_prim", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
 writeOnFile(fileName+"_kruskalNaive", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
 writeOnFile(fileName+"_kruskal", "-------- NOME GRAFO ------- TEMPO ---- PESO TOTALE");
-
-let graphs = createGraphsFromFile();
 
 //──── PRIM ──────────────────────────────────────────────────────────────────────────────
 graphs.forEach(async (graph) => {
@@ -45,7 +44,7 @@ graphs.forEach(async (graph) => {
     kruskalTotalWeight = kruskalTotalWeightCalc(kruskalMst);
     await writeOnFile(fileName+"_kruskal", graph.getName() + " ---- " + kruskalTime + " ---- " + kruskalTotalWeight);
 });
-
+ 
 //──── Utility functions ─────────────────────────────────────────────────────────────────
 async function writeOnFile(fileName: string, text: string){
     await fs.appendFile(fileName+".txt", text+"\r\n", function(err) {

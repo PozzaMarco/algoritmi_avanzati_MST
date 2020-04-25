@@ -59,7 +59,7 @@ export default class Graph {
     return minWeight
   }
 
-  //Check if there is an edge between firstNode and secondNode
+  //Controllo se c'è un lato che connette due nodi
   areNodeConnected(firstNode: number, secondNode: number): boolean {
     return this.weightBetween(firstNode, secondNode) != Infinity ? true : false;
   }
@@ -72,24 +72,24 @@ export default class Graph {
 
   addToAdjacencyList(node: number, adjacentNode: number) {
     if (!this.adjacencyList.has(node))
-      //If node not in adjacency list
-      this.adjacencyList.set(node, []); // node is added
+      //Se il nodo non è presente nella lista di adiacenza
+      this.adjacencyList.set(node, []); // aggiungo il muovo nodo
 
-    //Push a new adjacentNode into node's adjacent list
+    //Aggiungo un nuovo nodo alla lista di adiacenza
     if(!this.adjacencyList.get(node).includes(adjacentNode))
       this.adjacencyList.get(node).push(adjacentNode);
   }
 
   createGraph(graphDescription: string) {
-    //Split graphDescription in lines and iterate through them to create the adjacency list
+    //Divido graphDescription per righe e itero per creare la lista di adiacenza
     let descriptionLines = graphDescription.split("\n");
 
-    //Get and remove the first element of the descriptionLines that describe the graphDimensions
+    //Rimuovo la prima riga che contiene il numero di nodi e di lati
     let graphDimensions = descriptionLines.shift().split(" ");
     this.numberOfNodes = parseInt(graphDimensions[0]);
 
     descriptionLines.forEach((line) => {
-      let nodeValues = line.split(" "); //Split lines into node values
+      let nodeValues = line.split(" "); //Divido le linee in singoli valori
 
       if (!isNaN(parseInt(nodeValues[0]))) {
         this.addToAdjacencyList(parseInt(nodeValues[0]), parseInt(nodeValues[1]));
@@ -125,17 +125,29 @@ export default class Graph {
   insertNewEdge(newEdge: Edge){
     let found : boolean = false;
 
+    //Itero su tutti i lati dell'array
     for(let index = 0; index < this.edgeList.length && !found; index++){
+      //Se il lato è già presente e il nuovo lato ha peso minore, allora aggiorno solamente il peso
       if(newEdge.equalTo(this.edgeList[index]) && newEdge.isLighter(this.edgeList[index])){
         this.edgeList[index].weight = newEdge.weight;
         found = true;
       }
     }
+    //Se il lato non è presente lo aggiungo
     if(!found)
       this.edgeList.push(newEdge);
   }
 
+//========================================================================================
+/*                                                                                      *
+ * Metodo utilizzato in Kruskal Naive per rimuovere l'ultimo nodo aggiunto              *
+ * se questo genera un ciclo nel MST.                                                   *
+ *                                                                                      */
+//========================================================================================
+
   removeLastEdgeOf(firstNode: number){
+    //L'ultimo nodo aggiunto nella lista di adiacenza è sempre l'ultimo nell'array perchè le aggiunte
+    //avvengono con un push.
     let removed = this.getAdjacentNodesOf(firstNode).pop();
     this.getAdjacentNodesOf(removed).pop();
 
